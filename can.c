@@ -3,8 +3,8 @@
 #include <string.h>
 #include "can.h"
 
-can_msg_t rx_msg;
-can_msg_t txq[CAN_TXQ_LEN];
+struct can_msg_t rx_msg;
+struct can_msg_t txq[CAN_TXQ_LEN];
 volatile uint8_t txq_head, txq_tail;
 
 //setup CAN peripheral of MCU
@@ -84,7 +84,7 @@ uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data) 
     return 1; //succesfully transmitted message
 }
 
-void can_tx(const can_msg_t *msg) {
+void can_tx(const struct can_msg_t *msg) {
 //    //if TXB0 already has a message, don't try to send
 //    if (TXB0CONbits.TXREQ != 0) {
 //        return;
