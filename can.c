@@ -62,7 +62,8 @@ uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data) 
     if(txq_head == txq_tail - 1) {
         return 0; //failed to queue transmit - buffer was full
     }
-    txq[txq_head].id=id; //populate struct at head of queue with msg to send
+    //populate struct at head of queue with msg to send
+    txq[txq_head].id=id | RCU_ID_LOCAL; //lower 4 bits of ID are the RCU board-unique ID
     txq[txq_head].len=len;
     memcpy(txq[txq_head].data, data, len);
     //increment head, wrapping back to 0 at array end
