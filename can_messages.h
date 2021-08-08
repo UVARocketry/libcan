@@ -10,15 +10,6 @@
 
 #include <stdint.h>
 
-struct can_msg_t {
-    // Standard Identifier - 11 bits long
-    uint16_t id;
-    // How many bytes are used in data
-    uint8_t len;
-    // the data you want to transmit
-    uint8_t data[8];
-};
-
 //Message ID numbers (11-bit: 0x000 to 0x7FF)
 //Lower numbers get priority if there is a bus contention, so use lower numbers
 //for more critical data
@@ -45,25 +36,25 @@ struct ValveControl_t {
     struct SolenoidsControl_t {
     uint8_t engine_vent_valve_close : 1;
     uint8_t main_fuel_valve_open : 1;
-    uint8_t solenoid_3_energize : 1;
-    uint8_t solenoid_4_energize : 1;
+    uint8_t aux_1_energize : 1;
+    uint8_t aux_2_energize : 1;
 } solenoids;
 };
 
 #define ID_ENGINE_SENSORS_A 0x110
 struct EngineSensorsA_t{
     uint16_t thrust_raw;
-    uint16_t chamber_press_1_raw;
-    uint16_t chamber_press_2_raw;
-    uint16_t chamber_press_3_raw;
+    uint16_t chamber_press_raw;
+    uint16_t fuel_inj_press_raw;
+    uint16_t ox_inj_press_raw;
 } ;
 
 #define ID_ENGINE_SENSORS_B 0x120
 struct EngineSensorsB_t {
-    uint16_t fuel_inj_press_raw;
-    uint16_t ox_inj_press_raw;
     uint16_t fuel_tank_press_raw;
-    uint16_t aux_raw;
+    uint16_t aux_1_raw;
+    uint16_t aux_2_raw;
+    uint16_t aux_3_raw;
 };
 
 #define ID_OX_MAIN_MOTOR_STATUS 0x200
