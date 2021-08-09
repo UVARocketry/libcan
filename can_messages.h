@@ -104,8 +104,7 @@ struct PowerStatus_t
         uint8_t overvoltage : 1;
         uint8_t overcurrent_12V : 1;
         uint8_t overcurrent_5V : 1;
-        uint8_t shutdown_imminent : 1;
-        uint8_t valve_fuse_blown : 1;
+        uint8_t shutdown_req : 1;
     } flags;
 };
 
