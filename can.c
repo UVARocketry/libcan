@@ -124,7 +124,7 @@ void __interrupt(irq(IRQ_RXB0IF)) RXB0_int() {
     
     //intercept heartbeat msgs from main RCU
     if(rx_msg.id == (ID_HEARTBEAT | RCU_ID_MAIN_RCU) && 
-            rx_msg.len == sizeof(Heartbeat_t)) {
+            rx_msg.len == sizeof(struct Heartbeat_t)) {
             //set flag to indicate heartbeat received. main loop can note the time
             hb_rx_flag = 1;
     }
