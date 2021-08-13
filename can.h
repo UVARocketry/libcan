@@ -14,6 +14,11 @@ extern const uint8_t RCU_ID_LOCAL;
 
 #define CAN_TXQ_LEN (uint8_t)8
 
+#define CAN_RX_SUSPEND() PIE5bits.RXB0IE = 0;
+#define CAN_RX_RESUME() PIE5bits.RXB0IE = 1;
+
+#define CAN_CONVERT(structure) sizeof(structure), (uint8_t*)&structure
+
 struct can_msg_t {
     // Standard Identifier - 11 bits long
     uint16_t id;
