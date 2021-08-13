@@ -13,6 +13,7 @@
 extern const uint8_t RCU_ID_LOCAL;
 
 #define CAN_TXQ_LEN (uint8_t)8
+#define CAN_HB_TIMEOUT 600
 
 #define CAN_RX_SUSPEND() PIE5bits.RXB0IE = 0;
 #define CAN_RX_RESUME() PIE5bits.RXB0IE = 1;
@@ -33,6 +34,8 @@ void (*can_rx_callback)(const struct can_msg_t *msg);
 void can_init(void);
 
 uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data);
+
+uint8_t can_hb_check_connected(const uint16_t ms);
 
 #endif	/* CAN_H */
 

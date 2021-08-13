@@ -2,10 +2,14 @@
 #include <stdint.h>
 #include <string.h>
 #include "can.h"
+#include "can_messages.h"
 
 struct can_msg_t rx_msg;
 struct can_msg_t txq[CAN_TXQ_LEN];
 volatile uint8_t txq_head, txq_tail;
+
+uint8_t hb_rx_flag;
+uint16_t last_hb_rx_time;
 
 //setup CAN peripheral of MCU
 void can_init() {
@@ -117,9 +121,15 @@ void __interrupt(irq(IRQ_RXB0IF)) RXB0_int() {
     rx_msg.len = RXB0DLCbits.DLC;
     //simple mem copy works because each data array is in a contiguous memory space
     memcpy((void *)rx_msg.data, (const void *)&RXB0D0, rx_msg.len);
-
-    // call application code callback
-    if (can_rx_callback != NULL) {
+    
+    //intercept heartbeat msgs from main RCU
+    if(rx_msg.id == (ID_HEARTBEAT | RCU_ID_MAIN_RCU) && 
+            rx_msg.len == sizeof(Heartbeat_t)) {
+            //set flag to indicate heartbeat received. main loop can note the time
+            hb_rx_flag = 1;
+    }
+    // call application code callback for other msgs, if possible
+    else if (can_rx_callback != NULL) {
         can_rx_callback(&rx_msg);
     }
 
@@ -143,4 +153,16 @@ void __interrupt(irq(IRQ_TXB0IF)) TXB0_int() {
     if(txq_tail >= CAN_TXQ_LEN) {
         txq_tail = 0;
     }
+}
+
+uint8_t can_hb_check_connected(const uint16_t ms) {
+        if (hb_rx_flag) { //check for hb flag being set
+            hb_rx_flag = 0; //clear flag
+            last_hb_rx_time = ms; //note the time for timeout checking
+            return 1; //just got an hb - obviously we're connected
+        } else if(ms - last_hb_rx_time < CAN_HB_TIMEOUT) {
+            return 1; //last hb within the timeout range
+        } else { //timeout with no hbs rxd
+            return 0; //disconnected
+        }
 }
