@@ -47,7 +47,7 @@ struct ValveControl_t
 #define ID_ENGINE_SENSORS_A 0x110
 struct EngineSensorsA_t
 {
-    uint16_t thrust_raw;
+    uint16_t fuel_tank_press_raw;
     uint16_t chamber_press_raw;
     uint16_t fuel_inj_press_raw;
     uint16_t ox_inj_press_raw;
@@ -56,7 +56,7 @@ struct EngineSensorsA_t
 #define ID_ENGINE_SENSORS_B 0x120
 struct EngineSensorsB_t
 {
-    uint16_t fuel_tank_press_raw;
+    uint16_t thrust_raw;
     uint16_t aux_1_raw;
     uint16_t aux_2_raw;
     uint16_t aux_3_raw;
