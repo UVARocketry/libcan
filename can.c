@@ -9,7 +9,9 @@ struct can_msg_t txq[CAN_TXQ_LEN];
 volatile uint8_t txq_head, txq_tail;
 
 uint8_t hb_rx_flag;
-uint16_t last_hb_rx_time;
+//when the board starts, we want the last hb to be more than one timeout ago
+//so that it initializes to the disconnected state
+uint16_t last_hb_rx_time = -CAN_HB_TIMEOUT - 1;
 
 //setup CAN peripheral of MCU
 
