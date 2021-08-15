@@ -137,4 +137,9 @@ struct DebugPrint_t
     char *text[8];
 };
 
+#define ID_RESTART 0x430
+struct Restart_t {
+    uint8_t rcu_id; //ID of RCU to be restarted
+};
+
 #endif /* CAN_MESSAGES_H */
