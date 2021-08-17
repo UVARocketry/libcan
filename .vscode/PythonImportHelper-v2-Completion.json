@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "label": "Path",
         "importPath": "pathlib",
         "description": "pathlib",
@@ -40,6 +41,39 @@
         "description": "build_python_messages",
         "peekOfCode": "def main():\n    ffi = FFI()\n    # __file__ contains the path to this code\n    header_path = Path(__file__).parent / Path('can_messages.h')\n    # header_cache_path = Path(__file__).parent / Path('can_messages.h.cache')\n    header_contents = open(header_path).read()\n    # cffi does not process compiler directives (#include, etc.)\n    # so comment them out\n    header_contents = header_contents.replace('#', '//#')\n    # packed to match struct alignment on RCU microcontrollers",
         "detail": "build_python_messages",
+=======
+        "label": "CParser",
+        "importPath": "pyclibrary",
+        "description": "pyclibrary",
+        "isExtraImport": true,
+        "detail": "pyclibrary",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "path = Path(__file__).parent / Path('can_messages.h')\nparser = CParser(files=(str(path)))\nprint(parser)",
+        "detail": "test",
+        "documentation": {}
+    },
+    {
+        "label": "parser",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "parser = CParser(files=(str(path)))\nprint(parser)",
+        "detail": "test",
+>>>>>>> 68f2a675d6746c494ad989cae270c0e57fcfa287
         "documentation": {}
     }
 ]

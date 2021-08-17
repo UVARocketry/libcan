@@ -127,12 +127,12 @@ void __interrupt(irq(IRQ_RXB0IF)) RXB0_int() {
     memcpy((void *) rx_msg.data, (const void *) &RXB0D0, rx_msg.len);
 
     //intercept heartbeat msgs from main RCU
-    if (rx_msg.id == (ID_HEARTBEAT | RCU_ID_MAIN_RCU) &&
+    if (rx_msg.id == (CAN_ID_Heartbeat | RCU_ID_MAIN_RCU) &&
             rx_msg.len == sizeof (struct Heartbeat_t)) {
         //set flag to indicate heartbeat received. main loop can note the time
         hb_rx_flag = 1;
     }        //intercept reboot msgs from main RCU
-    else if (rx_msg.id == (ID_RESTART | RCU_ID_MAIN_RCU) &&
+    else if (rx_msg.id == (CAN_ID_Restart | RCU_ID_MAIN_RCU) &&
             rx_msg.len == sizeof (struct Restart_t)) {
         if(rx_msg.data[0] == RCU_ID_LOCAL) { //if payload indicates a restart for this RCU
             //reset the microcontroller
