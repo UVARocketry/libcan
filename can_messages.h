@@ -21,7 +21,7 @@
 #define RCU_ID_ENGINE_SENSOR_RCU 0x03
 #define RCU_ID_POWER_PYRO_RCU 0x04
 
-#define ID_PYRO_CONTROL 0x50
+#define CAN_ID_PyroControl 0x50
 struct PyroControl_t
 {
     uint8_t fire_ignitor : 1;
@@ -29,7 +29,7 @@ struct PyroControl_t
     uint8_t fire_drogue : 1;
 };
 
-#define ID_VALVE_CONTROL 0x100
+#define CAN_ID_ValveControl 0x100
 
 struct ValveControl_t
 {
@@ -44,7 +44,7 @@ struct ValveControl_t
     } solenoids;
 };
 
-#define ID_ENGINE_SENSORS_A 0x110
+#define CAN_ID_EngineSensorsA 0x110
 struct EngineSensorsA_t
 {
     uint16_t fuel_tank_press_raw;
@@ -53,7 +53,7 @@ struct EngineSensorsA_t
     uint16_t ox_inj_press_raw;
 };
 
-#define ID_ENGINE_SENSORS_B 0x120
+#define CAN_ID_EngineSensorsB 0x120
 struct EngineSensorsB_t
 {
     uint16_t thrust_raw;
@@ -62,8 +62,8 @@ struct EngineSensorsB_t
     uint16_t aux_3_raw;
 };
 
-#define ID_OX_MAIN_MOTOR_STATUS 0x200
-#define ID_FUEL_PRESS_MOTOR_STATUS 0x210
+#define CAN_ID_MotorStatus_OX_MAIN 0x200
+#define CAN_ID_MotorStatus_FUEL_PRESS 0x210
 struct MotorStatus_t
 {
     uint8_t pos;
@@ -83,7 +83,7 @@ struct MotorStatus_t
     } faults;
 };
 
-#define ID_PYRO_STATUS 0x220
+#define CAN_ID_PyroStatus 0x220
 struct PyroStatus_t
 {
     uint8_t ignitor_cont : 1;
@@ -91,7 +91,7 @@ struct PyroStatus_t
     uint8_t drogue_cont : 1;
 };
 
-#define ID_POWER_STATUS 0x230
+#define CAN_ID_PowerStatus 0x230
 struct PowerStatus_t
 {
     uint16_t voltage_12V_mV;
@@ -108,13 +108,13 @@ struct PowerStatus_t
     } flags;
 };
 
-#define ID_POWER_CONTROL 0x230
+#define CAN_ID_PowerControl 0x230
 struct PowerControl_t
 {
     uint8_t shutdown_request : 1;
 };
 
-#define ID_HEARTBEAT 0x400
+#define CAN_ID_Heartbeat 0x400
 struct Heartbeat_t
 {
     uint8_t health;
@@ -124,20 +124,20 @@ struct Heartbeat_t
 #define HEALTH_WARNING 1
 #define HEALTH_CRITICAL 2
 
-#define ID_ERROR 0x410
+#define CAN_ID_Error 0x410
 struct Error_t
 {
     uint8_t error_no;
     uint8_t error_data[7];
 };
 
-#define ID_DEBUG_PRINT 0x420
+#define CAN_ID_DebugPrint 0x420
 struct DebugPrint_t
 {
     char *text[8];
 };
 
-#define ID_RESTART 0x430
+#define CAN_ID_Restart 0x430
 struct Restart_t {
     uint8_t rcu_id; //ID of RCU to be restarted
 };

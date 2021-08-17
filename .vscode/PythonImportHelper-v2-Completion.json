@@ -1,0 +1,36 @@
+[
+    {
+        "label": "CParser",
+        "importPath": "pyclibrary",
+        "description": "pyclibrary",
+        "isExtraImport": true,
+        "detail": "pyclibrary",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "path = Path(__file__).parent / Path('can_messages.h')\nparser = CParser(files=(str(path)))\nprint(parser)",
+        "detail": "test",
+        "documentation": {}
+    },
+    {
+        "label": "parser",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "parser = CParser(files=(str(path)))\nprint(parser)",
+        "detail": "test",
+        "documentation": {}
+    }
+]
