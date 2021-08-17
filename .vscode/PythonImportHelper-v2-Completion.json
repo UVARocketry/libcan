@@ -1,0 +1,45 @@
+[
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "cffi",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cffi",
+        "description": "cffi",
+        "detail": "cffi",
+        "documentation": {}
+    },
+    {
+        "label": "FFI",
+        "importPath": "cffi",
+        "description": "cffi",
+        "isExtraImport": true,
+        "detail": "cffi",
+        "documentation": {}
+    },
+    {
+        "label": "lib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "lib",
+        "description": "lib",
+        "detail": "lib",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "build_python_messages",
+        "description": "build_python_messages",
+        "peekOfCode": "def main():\n    ffi = FFI()\n    # __file__ contains the path to this code\n    header_path = Path(__file__).parent / Path('can_messages.h')\n    # header_cache_path = Path(__file__).parent / Path('can_messages.h.cache')\n    header_contents = open(header_path).read()\n    # cffi does not process compiler directives (#include, etc.)\n    # so comment them out\n    header_contents = header_contents.replace('#', '//#')\n    # packed to match struct alignment on RCU microcontrollers",
+        "detail": "build_python_messages",
+        "documentation": {}
+    }
+]
