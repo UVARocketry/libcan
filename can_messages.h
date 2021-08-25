@@ -34,7 +34,7 @@ struct PyroControl_t
 struct ValveControl_t
 {
     uint8_t main_ox_valve_goal_pos;
-    uint8_t fuel_pres_valve_goal_pos;
+    uint8_t fuel_press_valve_goal_pos;
     struct SolenoidsControl_t
     {
         uint8_t engine_vent_valve_close : 1;
@@ -134,7 +134,7 @@ struct Error_t
 #define CAN_ID_DebugPrint 0x420
 struct DebugPrint_t
 {
-    char *text[8];
+    char text[8];
 };
 
 #define CAN_ID_Restart 0x430
