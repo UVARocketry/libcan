@@ -1,11 +1,74 @@
 [
     {
-<<<<<<< HEAD
+        "label": "Error",
+        "importPath": "copy",
+        "description": "copy",
+        "isExtraImport": true,
+        "detail": "copy",
+        "documentation": {}
+    },
+    {
         "label": "Path",
         "importPath": "pathlib",
         "description": "pathlib",
         "isExtraImport": true,
         "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "SimpleNamespace",
+        "importPath": "types",
+        "description": "types",
+        "isExtraImport": true,
+        "detail": "types",
+        "documentation": {}
+    },
+    {
+        "label": "NamedTuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "NamedTuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "NamedTuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Message",
+        "importPath": "can",
+        "description": "can",
+        "isExtraImport": true,
+        "detail": "can",
         "documentation": {}
     },
     {
@@ -18,62 +81,192 @@
         "documentation": {}
     },
     {
-        "label": "FFI",
-        "importPath": "cffi",
-        "description": "cffi",
-        "isExtraImport": true,
-        "detail": "cffi",
-        "documentation": {}
-    },
-    {
-        "label": "lib",
+        "label": "Error",
         "kind": 6,
-        "isExtraImport": true,
-        "importPath": "lib",
-        "description": "lib",
-        "detail": "lib",
+        "importPath": "can_parser",
+        "description": "can_parser",
+        "peekOfCode": "class Error(Exception):\n    pass\nclass InvalidCANFrameError(Error):\n    pass\nclass UnsupportedCANFrameTypeError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameIDError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameLengthError(InvalidCANFrameError):\n    pass",
+        "detail": "can_parser",
         "documentation": {}
     },
     {
-        "label": "main",
-        "kind": 2,
-        "importPath": "build_python_messages",
-        "description": "build_python_messages",
-        "peekOfCode": "def main():\n    ffi = FFI()\n    # __file__ contains the path to this code\n    header_path = Path(__file__).parent / Path('can_messages.h')\n    # header_cache_path = Path(__file__).parent / Path('can_messages.h.cache')\n    header_contents = open(header_path).read()\n    # cffi does not process compiler directives (#include, etc.)\n    # so comment them out\n    header_contents = header_contents.replace('#', '//#')\n    # packed to match struct alignment on RCU microcontrollers",
-        "detail": "build_python_messages",
-=======
-        "label": "CParser",
-        "importPath": "pyclibrary",
-        "description": "pyclibrary",
-        "isExtraImport": true,
-        "detail": "pyclibrary",
+        "label": "InvalidCANFrameError",
+        "kind": 6,
+        "importPath": "can_parser",
+        "description": "can_parser",
+        "peekOfCode": "class InvalidCANFrameError(Error):\n    pass\nclass UnsupportedCANFrameTypeError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameIDError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameLengthError(InvalidCANFrameError):\n    pass\nclass CANParser:\n    id_name_dict = dict()",
+        "detail": "can_parser",
         "documentation": {}
     },
     {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
+        "label": "UnsupportedCANFrameTypeError",
+        "kind": 6,
+        "importPath": "can_parser",
+        "description": "can_parser",
+        "peekOfCode": "class UnsupportedCANFrameTypeError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameIDError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameLengthError(InvalidCANFrameError):\n    pass\nclass CANParser:\n    id_name_dict = dict()\n    name_dict = dict()\n    def msg_to_data(cls, msg: Message) -> SimpleNamespace:",
+        "detail": "can_parser",
         "documentation": {}
     },
     {
-        "label": "path",
-        "kind": 5,
+        "label": "InvalidCANFrameIDError",
+        "kind": 6,
+        "importPath": "can_parser",
+        "description": "can_parser",
+        "peekOfCode": "class InvalidCANFrameIDError(InvalidCANFrameError):\n    pass\nclass InvalidCANFrameLengthError(InvalidCANFrameError):\n    pass\nclass CANParser:\n    id_name_dict = dict()\n    name_dict = dict()\n    def msg_to_data(cls, msg: Message) -> SimpleNamespace:\n        if msg.is_extended_id or msg.is_fd or msg.is_remote_frame or msg.is_error_frame:\n            raise UnsupportedCANFrameTypeError",
+        "detail": "can_parser",
+        "documentation": {}
+    },
+    {
+        "label": "InvalidCANFrameLengthError",
+        "kind": 6,
+        "importPath": "can_parser",
+        "description": "can_parser",
+        "peekOfCode": "class InvalidCANFrameLengthError(InvalidCANFrameError):\n    pass\nclass CANParser:\n    id_name_dict = dict()\n    name_dict = dict()\n    def msg_to_data(cls, msg: Message) -> SimpleNamespace:\n        if msg.is_extended_id or msg.is_fd or msg.is_remote_frame or msg.is_error_frame:\n            raise UnsupportedCANFrameTypeError\n        msg_id = (msg.arbitration_id // 16) * 16\n        rcu_id = msg.arbitration_id % 16",
+        "detail": "can_parser",
+        "documentation": {}
+    },
+    {
+        "label": "CANParser",
+        "kind": 6,
+        "importPath": "can_parser",
+        "description": "can_parser",
+        "peekOfCode": "class CANParser:\n    id_name_dict = dict()\n    name_dict = dict()\n    def msg_to_data(cls, msg: Message) -> SimpleNamespace:\n        if msg.is_extended_id or msg.is_fd or msg.is_remote_frame or msg.is_error_frame:\n            raise UnsupportedCANFrameTypeError\n        msg_id = (msg.arbitration_id // 16) * 16\n        rcu_id = msg.arbitration_id % 16\n        try:\n            msg_name = cls.id_name_dict[msg_id]",
+        "detail": "can_parser",
+        "documentation": {}
+    },
+    {
+        "label": "PyroControlData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class PyroControlData(NamedTuple):\n\tfire_drogue: Any\n\tfire_ignitor: Any\n\tfire_main: Any\nclass ValveControlData(NamedTuple):\n\taux_1_energize: Any\n\taux_2_energize: Any\n\tengine_vent_valve_close: Any\n\tfuel_pres_valve_goal_pos: Any\n\tmain_fuel_valve_open: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "ValveControlData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class ValveControlData(NamedTuple):\n\taux_1_energize: Any\n\taux_2_energize: Any\n\tengine_vent_valve_close: Any\n\tfuel_pres_valve_goal_pos: Any\n\tmain_fuel_valve_open: Any\n\tmain_ox_valve_goal_pos: Any\nclass EngineSensorsAData(NamedTuple):\n\tchamber_press_raw: Any\n\tfuel_inj_press_raw: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "EngineSensorsAData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class EngineSensorsAData(NamedTuple):\n\tchamber_press_raw: Any\n\tfuel_inj_press_raw: Any\n\tfuel_tank_press_raw: Any\n\tox_inj_press_raw: Any\nclass EngineSensorsBData(NamedTuple):\n\taux_1_raw: Any\n\taux_2_raw: Any\n\taux_3_raw: Any\n\tthrust_raw: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "EngineSensorsBData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class EngineSensorsBData(NamedTuple):\n\taux_1_raw: Any\n\taux_2_raw: Any\n\taux_3_raw: Any\n\tthrust_raw: Any\nclass MotorStatusData(NamedTuple):\n\tencoder_error: Any\n\thas_homed: Any\n\thoming_timeout: Any\n\tlimit_switch: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "MotorStatusData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class MotorStatusData(NamedTuple):\n\tencoder_error: Any\n\thas_homed: Any\n\thoming_timeout: Any\n\tlimit_switch: Any\n\tlimit_switch_stuck: Any\n\tmotor_slip_encoder_drift: Any\n\tmotor_stuck: Any\n\tpos: Any\n\tspeed: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "MotorStatusData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class MotorStatusData(NamedTuple):\n\tencoder_error: Any\n\thas_homed: Any\n\thoming_timeout: Any\n\tlimit_switch: Any\n\tlimit_switch_stuck: Any\n\tmotor_slip_encoder_drift: Any\n\tmotor_stuck: Any\n\tpos: Any\n\tspeed: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "PyroStatusData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class PyroStatusData(NamedTuple):\n\tdrogue_cont: Any\n\tignitor_cont: Any\n\tmain_cont: Any\nclass PowerStatusData(NamedTuple):\n\tcurrent_12V_mA: Any\n\tcurrent_5V_mA: Any\n\texternal_power_connected: Any\n\tovercurrent_12V: Any\n\tovercurrent_5V: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "PowerStatusData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class PowerStatusData(NamedTuple):\n\tcurrent_12V_mA: Any\n\tcurrent_5V_mA: Any\n\texternal_power_connected: Any\n\tovercurrent_12V: Any\n\tovercurrent_5V: Any\n\tovervoltage: Any\n\tshutdown_req: Any\n\tundervoltage: Any\n\tvoltage_12V_mV: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "PowerControlData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class PowerControlData(NamedTuple):\n\tshutdown_request: Any\nclass HeartbeatData(NamedTuple):\n\thealth: Any\n\tuptime_s: Any\nclass ErrorData(NamedTuple):\n\terror_data: Any\n\terror_no: Any\nclass DebugPrintData(NamedTuple):\n\ttext: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "HeartbeatData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class HeartbeatData(NamedTuple):\n\thealth: Any\n\tuptime_s: Any\nclass ErrorData(NamedTuple):\n\terror_data: Any\n\terror_no: Any\nclass DebugPrintData(NamedTuple):\n\ttext: Any\nclass RestartData(NamedTuple):\n\ttarget_rcu_id: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "ErrorData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class ErrorData(NamedTuple):\n\terror_data: Any\n\terror_no: Any\nclass DebugPrintData(NamedTuple):\n\ttext: Any\nclass RestartData(NamedTuple):\n\ttarget_rcu_id: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "DebugPrintData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class DebugPrintData(NamedTuple):\n\ttext: Any\nclass RestartData(NamedTuple):\n\ttarget_rcu_id: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "RestartData",
+        "kind": 6,
+        "importPath": "out",
+        "description": "out",
+        "peekOfCode": "class RestartData(NamedTuple):\n\ttarget_rcu_id: Any",
+        "detail": "out",
+        "documentation": {}
+    },
+    {
+        "label": "D",
+        "kind": 6,
         "importPath": "test",
         "description": "test",
-        "peekOfCode": "path = Path(__file__).parent / Path('can_messages.h')\nparser = CParser(files=(str(path)))\nprint(parser)",
+        "peekOfCode": "class D(NamedTuple):\n    red: Any\n    green: int\nd = D(red=0, green=5)\nprint(d)",
         "detail": "test",
         "documentation": {}
     },
     {
-        "label": "parser",
+        "label": "d",
         "kind": 5,
         "importPath": "test",
         "description": "test",
-        "peekOfCode": "parser = CParser(files=(str(path)))\nprint(parser)",
+        "peekOfCode": "d = D(red=0, green=5)\nprint(d)",
         "detail": "test",
->>>>>>> 68f2a675d6746c494ad989cae270c0e57fcfa287
         "documentation": {}
     }
 ]
