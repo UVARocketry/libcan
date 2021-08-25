@@ -1,9 +1,10 @@
-from pyclibrary import CParser
-from pathlib import Path
+from typing import Any, NamedTuple
 
-#__file__ contains the path to this 
-path = Path(__file__).parent / Path('can_messages.h')
 
-parser = CParser(files=(str(path)))
+class D(NamedTuple):
+    red: Any
+    green: int
 
-print(parser)
+
+d = D(red=0, green=5)
+print(d)

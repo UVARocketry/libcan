@@ -15,22 +15,23 @@ uint16_t last_hb_rx_time = (uint16_t)(-CAN_HB_TIMEOUT - 1);
 
 //setup CAN peripheral of MCU
 
-void can_init() {
+void can_init()
+{
     //RC6 is CANRX
     ANSELCbits.ANSELC6 = 0; //disable analog
-    CANRXPPS = 0b010110; //connect RC6 to CANRX signal
-
+    CANRXPPS = 0b010110;    //connect RC6 to CANRX signal
 
     //RC7 is CANTX
     ANSELCbits.ANSELC7 = 0; //disable analog
-    TRISCbits.TRISC7 = 0; //CANTX is an output pin
-    LATCbits.LATC7 = 1; //default TX to HIGH when CAN peripheral is not using it
+    TRISCbits.TRISC7 = 0;   //CANTX is an output pin
+    LATCbits.LATC7 = 1;     //default TX to HIGH when CAN peripheral is not using it
     //this corresponds to sending a recessive bit on the bus
     RC7PPS = 0b110011; //connect RC7 to CANTX signal
 
     //CAN peripheral configuration
     CANCONbits.REQOP = 0b100; //request to enter configuration mode
-    while (CANSTATbits.OPMODE != 0b100); //wait for config mode
+    while (CANSTATbits.OPMODE != 0b100)
+        ; //wait for config mode
     //use legacy mode, mode 0 (the default) - it's simpler and still works
     //modes 1 and 2 provide more ID filters and message buffers
     //but we don't need them
@@ -45,28 +46,31 @@ void can_init() {
     //fixed default sync segment = 1 TQ
     //default propagation segment = 1 TQ
     BRGCON2bits.SEG1PH = 0b011; //Phase Seg 1 = 4 TQ
-    BRGCON2bits.SEG2PHTS = 1; //allow programming Phase Seg 2
+    BRGCON2bits.SEG2PHTS = 1;   //allow programming Phase Seg 2
     BRGCON3bits.SEG2PH = 0b001; //Phase Seg 2 = 2 TQ
 
     //configure receive buffer 0 to ignore filters and accept all messages
     RXB0CONbits.RXM0 = 1;
     RXB0CONbits.RXM1 = 1;
     //RXB1 will never receive a message - filters block them all by default
-    //    RXB0CONbits.RB0DBEN = 1; //if we receive a message and RXB0 is full, 
+    //    RXB0CONbits.RB0DBEN = 1; //if we receive a message and RXB0 is full,
     //put it in RXB1. This ignores RXB1 filters by default
 
     CANCONbits.REQOP = 0b000; //request Normal Mode
-    while (CANSTATbits.OPMODE != 0b000); //wait mode change
+    while (CANSTATbits.OPMODE != 0b000)
+        ; //wait mode change
 
     //enable interrupts for message rx and tx completion
     PIE5bits.RXB0IE = 1;
     PIE5bits.TXB0IE = 1;
 }
 
-uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data) {
+uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data)
+{
     PIE5bits.TXB0IE = 0; //disable TX interrupt to avoid race conditions during
     //head,tail,buffer access/modify
-    if (txq_head == txq_tail - 1) {
+    if (txq_head == txq_tail - 1)
+    {
         return 0; //failed to queue transmit - buffer was full
     }
     //populate struct at head of queue with msg to send
@@ -75,7 +79,8 @@ uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data) 
     memcpy(txq[txq_head].data, data, len);
     //increment head, wrapping back to 0 at array end
     txq_head++;
-    if (txq_head >= CAN_TXQ_LEN) {
+    if (txq_head >= CAN_TXQ_LEN)
+    {
         txq_head = 0;
     }
     PIE5bits.TXB0IE = 1; //re-enable interrupt
@@ -84,7 +89,8 @@ uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data) 
     //and cleared at the time when the transmit is completed.
     //At transmit complete, the TXB0IF fires the interrupt.
     //initially, when there's no transmission started, the interrupt never fires
-    if (PIR5bits.TXB0IF == 0 && TXB0CONbits.TXREQ == 0) {
+    if (PIR5bits.TXB0IF == 0 && TXB0CONbits.TXREQ == 0)
+    {
         PIR5bits.TXB0IF = 1;
         //interrupt fires here
     }
@@ -92,15 +98,16 @@ uint8_t can_txq_push(const uint16_t id, const uint8_t len, const uint8_t *data) 
     return 1; //succesfully transmitted message
 }
 
-void can_tx(const struct can_msg_t *msg) {
+void can_tx(const struct can_msg_t *msg)
+{
     //    //if TXB0 already has a message, don't try to send
     //    if (TXB0CONbits.TXREQ != 0) {
     //        return;
     //    }
 
     //copy ID, length, and data bytes from msg struct to transmit buffer registers.
-    TXB0SIDH = (uint8_t) ((msg->id) >> 3);
-    TXB0SIDL = (uint8_t) (((msg->id) & 0b111) << 5);
+    TXB0SIDH = (uint8_t)((msg->id) >> 3);
+    TXB0SIDL = (uint8_t)(((msg->id) & 0b111) << 5);
     TXB0SIDLbits.EXIDE = 0; //send as standard (11-bit) ID frame
 
     // not an RTR message, we don't support those
@@ -108,7 +115,7 @@ void can_tx(const struct can_msg_t *msg) {
     // set message length
     TXB0DLCbits.DLC = msg->len;
     //copy data bytes
-    memcpy((void*) &TXB0D0, (const void*) msg->data, msg->len);
+    memcpy((void *)&TXB0D0, (const void *)msg->data, msg->len);
 
     // Mark transmit buffer 0 ready to transmit and the hardware does the rest
     TXB0CONbits.TXREQ = 1;
@@ -116,32 +123,37 @@ void can_tx(const struct can_msg_t *msg) {
 
 //run when message rxed and transferred to RXB0
 
-void __interrupt(irq(IRQ_RXB0IF)) RXB0_int() {
+void __interrupt(irq(IRQ_RXB0IF)) RXB0_int()
+{
     PIR5bits.RXB0IF = 0; //clear flag immediately
     //RXB0SIDH contains the 8 MSbs of the SID
     //RXB0SIDL contains the 3 LSbs of the SID in its 3 MSbs
     //combine them to give a right-justified 11-bit SID
-    rx_msg.id = (((uint16_t) RXB0SIDH) << 3) | (RXB0SIDL >> 5);
+    rx_msg.id = (((uint16_t)RXB0SIDH) << 3) | (RXB0SIDL >> 5);
     rx_msg.len = RXB0DLCbits.DLC;
     //simple mem copy works because each data array is in a contiguous memory space
-    memcpy((void *) rx_msg.data, (const void *) &RXB0D0, rx_msg.len);
+    memcpy((void *)rx_msg.data, (const void *)&RXB0D0, rx_msg.len);
 
     //intercept heartbeat msgs from main RCU
     if (rx_msg.id == (CAN_ID_Heartbeat | RCU_ID_MAIN_RCU) &&
-            rx_msg.len == sizeof (struct Heartbeat_t)) {
+        rx_msg.len == sizeof(struct Heartbeat_t))
+    {
         //set flag to indicate heartbeat received. main loop can note the time
         hb_rx_flag = 1;
-    }        //intercept reboot msgs from main RCU
+    } //intercept reboot msgs from main RCU
     else if (rx_msg.id == (CAN_ID_Restart | RCU_ID_MAIN_RCU) &&
-            rx_msg.len == sizeof (struct Restart_t)) {
-        if(rx_msg.data[0] == RCU_ID_LOCAL) { //if payload indicates a restart for this RCU
+             rx_msg.len == sizeof(struct Restart_t))
+    {
+        if (rx_msg.data[0] == RCU_ID_LOCAL)
+        { //if payload indicates a restart for this RCU
             //reset the microcontroller
             //PIC instruction set includes a reset instruction
             //this macro expands to the inline assembly for that
             RESET();
         }
-    }        // call application code callback only for other messages
-    else if (can_rx_callback != NULL) { //check that a callback function was set
+    } // call application code callback only for other messages
+    else if (can_rx_callback != NULL)
+    { //check that a callback function was set
         can_rx_callback(&rx_msg);
     }
 
@@ -150,31 +162,40 @@ void __interrupt(irq(IRQ_RXB0IF)) RXB0_int() {
 //
 ////ditto for RXB1
 //void __interrupt(irq(IRQ_RXB1IF)) RXB1_int() {
-//    
+//
 //}
 
-void __interrupt(irq(IRQ_TXB0IF)) TXB0_int() {
+void __interrupt(irq(IRQ_TXB0IF)) TXB0_int()
+{
     PIR5bits.TXB0IF = 0; //clear interrupt flag
-    if (txq_tail == txq_head) {
+    if (txq_tail == txq_head)
+    {
         //empty buffer
         return;
     }
     can_tx(&txq[txq_tail]); //request transmission of message at index tail
     //increment tail, wrapping at array end
     txq_tail++;
-    if (txq_tail >= CAN_TXQ_LEN) {
+    if (txq_tail >= CAN_TXQ_LEN)
+    {
         txq_tail = 0;
     }
 }
 
-uint8_t can_hb_check_connected(const uint16_t ms) {
-    if (hb_rx_flag) { //check for hb flag being set
-        hb_rx_flag = 0; //clear flag
+uint8_t can_hb_check_connected(const uint16_t ms)
+{
+    if (hb_rx_flag)
+    {                         //check for hb flag being set
+        hb_rx_flag = 0;       //clear flag
         last_hb_rx_time = ms; //note the time for timeout checking
-        return 1; //just got an hb - obviously we're connected
-    } else if (ms - last_hb_rx_time < CAN_HB_TIMEOUT) {
+        return 1;             //just got an hb - obviously we're connected
+    }
+    else if (ms - last_hb_rx_time < CAN_HB_TIMEOUT)
+    {
         return 1; //last hb within the timeout range
-    } else { //timeout with no hbs rxd
+    }
+    else
+    {             //timeout with no hbs rxd
         return 0; //disconnected
     }
 }

@@ -138,7 +138,8 @@ struct DebugPrint_t
 };
 
 #define CAN_ID_Restart 0x430
-struct Restart_t {
+struct Restart_t
+{
     uint8_t rcu_id; //ID of RCU to be restarted
 };
 
