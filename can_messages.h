@@ -19,7 +19,7 @@
 #define RCU_ID_MAIN_RCU 0x01
 #define RCU_ID_ENGINE_VALVE_RCU 0x02
 #define RCU_ID_ENGINE_SENSOR_RCU 0x03
-#define RCU_ID_POWER_PYRO_RCU 0x04
+#define RCU_ID_PYRO_RCU 0x04
 
 #define CAN_ID_PyroControl 0x50
 struct PyroControl_t
@@ -86,6 +86,7 @@ struct MotorStatus_t
 #define CAN_ID_PyroStatus 0x220
 struct PyroStatus_t
 {
+    uint16_t pyro_voltage_raw;
     uint8_t ignitor_cont : 1;
     uint8_t main_cont : 1;
     uint8_t drogue_cont : 1;
