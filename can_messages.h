@@ -21,7 +21,7 @@
 #define RCU_ID_ENGINE_SENSOR_RCU 0x03
 #define RCU_ID_PYRO_RCU 0x04
 
-#define CAN_ID_PyroControl 0x50
+#define CAN_ID_PyroControl 0x050
 struct PyroControl_t
 {
     uint8_t fire_ignitor : 1;
