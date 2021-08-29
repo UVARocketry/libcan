@@ -25,8 +25,8 @@
 struct PyroControl_t
 {
     uint8_t fire_ignitor : 1;
-    uint8_t fire_main : 1;
     uint8_t fire_drogue : 1;
+    uint8_t fire_main : 1;
 };
 
 #define CAN_ID_ValveControl 0x100
